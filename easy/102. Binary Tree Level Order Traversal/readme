@@ -1,0 +1,148 @@
+# binary tree level order traversal
+
+## problem
+
+given the root of a binary tree, return the level-order traversal of its nodes' values.
+
+level-order traversal visits the nodes level by level from left to right.
+
+### example
+
+given the binary tree:
+
+        1
+       / \
+      2   3
+     / \
+    4   5
+
+the level-order traversal is:
+
+```text
+[[1], [2, 3], [4, 5]]
+approach
+
+this solution uses breadth-first search (bfs) with a queue.
+
+steps
+.1add the root node to the queue.
+2.process the nodes currently present in the queue.
+3.add their left and right children to the queue.
+4store the children as the next level.
+5continue until the queue becomes empty.
+
+a deque is used because removing an element from the front takes o(1) time.
+
+concepts used
+binary tree
+breadth-first search (bfs)
+queue
+deque
+level-by-level traversal
+code
+from collections import deque
+
+class Solution(object):
+    def levelOrder(self, root):
+        r_list2 = []
+
+        if root is not None:
+            r_list2 = [[root.val]]
+
+        queue = deque()
+        queue.append(root)
+
+        while queue:
+            level = []
+
+            for i in range(len(queue)):
+
+                current = queue.popleft()
+
+                if root is None:
+                    return []
+
+                if current.left:
+                    queue.append(current.left)
+                    level.append(current.left.val)
+
+                if current.right:
+                    queue.append(current.right)
+                    level.append(current.right.val)
+
+            if level:
+                r_list2.append(level)
+
+        return r_list2
+time complexity
+
+o(n)
+
+where n is the number of nodes in the binary tree.
+
+each node is added to the queue and removed from the queue once.
+
+therefore, every node is processed once.
+
+time complexity = o(n)
+space complexity
+
+o(n)
+
+the queue can contain up to n nodes in the worst case.
+
+the result list also stores the values of all nodes.
+
+space complexity = o(n)
+why bfs is used
+
+level-order traversal requires visiting nodes level by level.
+
+bfs naturally follows this order because it uses a queue.
+
+first in → first out
+
+for example:
+
+        1
+       / \
+      2   3
+     / \
+    4   5
+
+queue progression:
+
+[1]
+
+[2, 3]
+
+[4, 5]
+
+result:
+
+[[1], [2, 3], [4, 5]]
+applications
+
+level-order traversal is useful for:
+
+finding nodes at each level
+finding the minimum depth of a binary tree
+finding the average value at each level
+finding the right or left view of a tree
+zigzag level-order traversal
+solving level-based binary tree problems
+key pattern
+
+the important bfs pattern used in this problem is:
+
+while queue:
+    level = []
+
+    for i in range(len(queue)):
+        current = queue.popleft()
+
+        # process current node
+
+        # add children to queue
+
+    # store current level
